@@ -9,8 +9,8 @@ fi
 
 # Create or update the conda environment
 if [ -f environment.yml ]; then
-    echo "Creating the conda environment from environment.yml..."
-    conda env create -f environment.yml
+    echo "Creating or updating the conda environment from environment.yml..."
+    conda env update -f environment.yml --prune
 else
     echo "No environment.yml found, exporting the current environment..."
     conda env export --no-builds > environment.yml
@@ -18,9 +18,14 @@ else
 fi
 
 # Activate the environment
-echo "Activating the environment 'mlfd6'..."
+echo "Activating the environment 'mlfd7'..."
 source $(conda info --base)/etc/profile.d/conda.sh
-conda activate mlfd6
+if conda activate mlfd7; then
+    echo "Environment 'mlfd7' activated successfully."
+else
+    echo "Failed to activate the 'mlfd7' environment."
+    exit 1
+fi
 
 # Install pip packages (if requirements.txt is provided)
 if [ -f requirements.txt ]; then
